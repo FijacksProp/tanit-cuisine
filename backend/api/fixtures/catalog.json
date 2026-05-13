@@ -1,0 +1,1190 @@
+﻿{
+  "categories": [
+    {
+      "slug": "signature-rice",
+      "name": "Signature Rice",
+      "tagline": "The soul of every gathering",
+      "description": "Smoky, slow-cooked jollof, fragrant coconut rice, and ofada classics — each grain tells a story.",
+      "image": "/images/jollof.jpg"
+    },
+    {
+      "slug": "soups-and-stews",
+      "name": "Soups & Stews",
+      "tagline": "Heirloom recipes, refined",
+      "description": "Egusi, efo riro, banga and pepper soup, prepared with care from family recipes passed through generations.",
+      "image": "/images/egusi.jpg"
+    },
+    {
+      "slug": "grills-and-skewers",
+      "name": "Grills & Skewers",
+      "tagline": "Charcoal, spice, smoke",
+      "description": "Suya, asun and grilled fish kissed by open flame and dressed in our signature yaji rub.",
+      "image": "/images/suya.jpg"
+    },
+    {
+      "slug": "swallows",
+      "name": "Swallows & Sides",
+      "tagline": "The perfect companion",
+      "description": "Pounded yam, amala, eba — silky, hand-crafted swallows to pair with every soup.",
+      "image": "/images/pounded-yam.jpg"
+    },
+    {
+      "slug": "small-chops",
+      "name": "Small Chops",
+      "tagline": "Bites worth gathering for",
+      "description": "Puff puff, samosa, spring rolls and peppered chicken — the pulse of every Tanit table.",
+      "image": "/images/small-chops.jpg"
+    },
+    {
+      "slug": "modern-fusion",
+      "name": "Modern Fusion",
+      "tagline": "Heritage, reimagined",
+      "description": "Where Nigerian flavor meets contemporary technique — jollof risotto, suya tacos, plantain gnocchi.",
+      "image": "/images/jollof-risotto.jpg"
+    },
+    {
+      "slug": "drinks",
+      "name": "Drinks",
+      "tagline": "Sip the season",
+      "description": "House-made chapman, hibiscus zobo and craft sodas, served chilled and elegant.",
+      "image": "/images/chapman.jpg"
+    },
+    {
+      "slug": "desserts",
+      "name": "Desserts",
+      "tagline": "A sweet finish",
+      "description": "Caramel-glazed puff puff, coconut chin chin, and seasonal sweets to end on a high note.",
+      "image": "/images/puff-puff.jpg"
+    }
+  ],
+  "products": [
+    {
+      "id": "p-001",
+      "slug": "royal-jollof-rice",
+      "name": "Royal Jollof Rice",
+      "category": "signature-rice",
+      "price": 15500,
+      "oldPrice": 17500,
+      "shortDescription": "Slow-smoked over firewood with vine-ripened tomatoes, scotch bonnet and our heritage spice blend.",
+      "description": "Our signature Royal Jollof is built on a base of fire-roasted plum tomatoes, red bell peppers and scotch bonnet, simmered for hours with bay leaf, thyme and the Tanit yaji blend. Long-grain parboiled rice is folded in and finished over low heat to develop the prized smoky party-jollof crust. Served with a piece of grilled chicken and caramelised plantain.",
+      "image": "/images/jollof.jpg",
+      "ingredients": [
+        "Long-grain parboiled rice",
+        "Plum tomatoes",
+        "Red bell pepper",
+        "Scotch bonnet",
+        "Bay leaf",
+        "Tanit yaji spice",
+        "Sweet plantain"
+      ],
+      "dietary": [
+        "dairy-free",
+        "spicy",
+        "chef-special"
+      ],
+      "spiceLevel": 2,
+      "prepTimeMinutes": 35,
+      "servingSize": "Serves 1",
+      "calories": 720,
+      "rating": 4.9,
+      "reviewCount": 184,
+      "featured": true,
+      "bestseller": true,
+      "pairings": [
+        "chapman-reserve",
+        "tanit-suya-skewers",
+        "moin-moin-trio"
+      ],
+      "reviews": [
+        {
+          "id": "r-001-1",
+          "author": "Adaeze O.",
+          "initials": "AO",
+          "rating": 5,
+          "date": "March 14, 2026",
+          "title": "Like Sunday at home, only better",
+          "comment": "The smoky depth is unreal. You can taste the firewood. Plantain was perfectly caramelised. This is the standard now.",
+          "verified": true
+        },
+        {
+          "id": "r-001-2",
+          "author": "Tunde A.",
+          "initials": "TA",
+          "rating": 5,
+          "date": "March 02, 2026",
+          "title": "Worth every naira",
+          "comment": "Travelled across town to try it and now I order weekly. The chicken is juicy, the jollof is restaurant grade.",
+          "verified": true
+        },
+        {
+          "id": "r-001-3",
+          "author": "Chiamaka E.",
+          "initials": "CE",
+          "rating": 4,
+          "date": "February 19, 2026",
+          "title": "Beautifully balanced",
+          "comment": "Heat level was just right for me. Could use a touch more salt but everything else was on point.",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "p-002",
+      "slug": "coconut-jollof-prawns",
+      "name": "Coconut Jollof with Prawns",
+      "category": "signature-rice",
+      "price": 18500,
+      "shortDescription": "Toasted coconut milk jollof finished with garlic-butter tiger prawns and lime.",
+      "description": "A coastal twist on our signature jollof — long-grain rice cooked in fragrant coconut milk and tomato until creamy and aromatic, then crowned with three garlic-butter tiger prawns and a wedge of grilled lime. Toasted coconut flakes on top for texture.",
+      "image": "/images/coconut-jollof.jpg",
+      "ingredients": [
+        "Long-grain rice",
+        "Coconut milk",
+        "Tiger prawns",
+        "Garlic",
+        "Butter",
+        "Lime"
+      ],
+      "dietary": [
+        "chef-special"
+      ],
+      "spiceLevel": 1,
+      "prepTimeMinutes": 40,
+      "servingSize": "Serves 1",
+      "calories": 810,
+      "rating": 4.8,
+      "reviewCount": 96,
+      "featured": true,
+      "isNew": true,
+      "pairings": [
+        "zobo-spritz"
+      ],
+      "reviews": [
+        {
+          "id": "r-002-1",
+          "author": "Ifeoma N.",
+          "initials": "IN",
+          "rating": 5,
+          "date": "March 22, 2026",
+          "title": "Coastal in a bowl",
+          "comment": "The coconut is subtle, never heavy. Prawns were huge and snappy.",
+          "verified": true
+        },
+        {
+          "id": "r-002-2",
+          "author": "David K.",
+          "initials": "DK",
+          "rating": 5,
+          "date": "March 11, 2026",
+          "title": "My new favourite",
+          "comment": "I rarely review food but this deserved it. Beautifully plated and the flavours sing.",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "p-003",
+      "slug": "ofada-rice-ayamase",
+      "name": "Ofada Rice & Ayamase",
+      "category": "signature-rice",
+      "price": 17000,
+      "shortDescription": "Local stone-milled ofada rice with green pepper ayamase, assorted meats and boiled egg.",
+      "description": "Earthy ofada rice steamed in ewe eran leaves and served with a slow-cooked green pepper ayamase, packed with assorted meats, locust bean and a perfectly soft-boiled egg. A heritage dish, served the way it was meant to be.",
+      "image": "/images/ofada.jpg",
+      "ingredients": [
+        "Ofada rice",
+        "Green peppers",
+        "Locust beans (iru)",
+        "Assorted meats",
+        "Palm oil"
+      ],
+      "dietary": [
+        "dairy-free",
+        "spicy"
+      ],
+      "spiceLevel": 3,
+      "prepTimeMinutes": 45,
+      "servingSize": "Serves 1",
+      "calories": 880,
+      "rating": 4.7,
+      "reviewCount": 71,
+      "pairings": [
+        "chapman-reserve"
+      ],
+      "reviews": [
+        {
+          "id": "r-003-1",
+          "author": "Bola S.",
+          "initials": "BS",
+          "rating": 5,
+          "date": "March 10, 2026",
+          "title": "Authentic to the last bite",
+          "comment": "Tastes exactly like my grandmother used to make. The iru hits different.",
+          "verified": true
+        },
+        {
+          "id": "r-003-2",
+          "author": "Femi O.",
+          "initials": "FO",
+          "rating": 4,
+          "date": "February 27, 2026",
+          "title": "Spicy and hearty",
+          "comment": "Bring milk. Worth it though.",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "p-004",
+      "slug": "royal-egusi",
+      "name": "Royal Egusi",
+      "category": "soups-and-stews",
+      "price": 19500,
+      "shortDescription": "Stone-ground melon seed soup with bitter leaf, goat meat, stockfish and shaki.",
+      "description": "A masterclass in egusi. We stone-grind premium melon seeds and cook them slow in a bone broth enriched with palm oil, ground crayfish and locust bean. Finished with bitter leaf, goat meat, stockfish and shaki. Served with your choice of pounded yam or eba (sold separately).",
+      "image": "/images/egusi.jpg",
+      "ingredients": [
+        "Melon seeds (egusi)",
+        "Bitter leaf",
+        "Goat meat",
+        "Stockfish",
+        "Palm oil",
+        "Crayfish"
+      ],
+      "dietary": [
+        "dairy-free",
+        "spicy",
+        "gluten-free"
+      ],
+      "spiceLevel": 2,
+      "prepTimeMinutes": 50,
+      "servingSize": "Serves 1",
+      "calories": 640,
+      "rating": 4.9,
+      "reviewCount": 142,
+      "bestseller": true,
+      "featured": true,
+      "pairings": [
+        "pounded-yam-set",
+        "amala-ewedu"
+      ],
+      "reviews": [
+        {
+          "id": "r-004-1",
+          "author": "Ngozi U.",
+          "initials": "NU",
+          "rating": 5,
+          "date": "March 19, 2026",
+          "title": "Restaurant quality at home",
+          "comment": "The bitter leaf to egusi ratio is perfect. Goat meat was tender, falling off the bone.",
+          "verified": true
+        },
+        {
+          "id": "r-004-2",
+          "author": "Kelechi M.",
+          "initials": "KM",
+          "rating": 5,
+          "date": "March 06, 2026",
+          "title": "Take my money",
+          "comment": "I order this twice a week. No notes.",
+          "verified": true
+        },
+        {
+          "id": "r-004-3",
+          "author": "Sade A.",
+          "initials": "SA",
+          "rating": 4,
+          "date": "February 12, 2026",
+          "title": "Beautiful flavour",
+          "comment": "Could use a little more crayfish for me but the depth is exceptional.",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "p-005",
+      "slug": "efo-riro-royale",
+      "name": "Efo Riro Royale",
+      "category": "soups-and-stews",
+      "price": 18000,
+      "shortDescription": "Hand-torn ugu and shoko greens in palm oil base with smoked turkey and ponmo.",
+      "description": "Our take on the Yoruba classic — hand-torn pumpkin and amaranth leaves wilted into a smoked palm oil base with locust bean, scotch bonnet, smoked turkey and tender ponmo. Bright, peppery and deeply savoury.",
+      "image": "/images/efo-riro.jpg",
+      "ingredients": [
+        "Ugu leaves",
+        "Shoko greens",
+        "Smoked turkey",
+        "Ponmo",
+        "Palm oil",
+        "Locust bean"
+      ],
+      "dietary": [
+        "gluten-free",
+        "dairy-free",
+        "spicy"
+      ],
+      "spiceLevel": 2,
+      "prepTimeMinutes": 45,
+      "servingSize": "Serves 1",
+      "calories": 580,
+      "rating": 4.8,
+      "reviewCount": 88,
+      "pairings": [
+        "pounded-yam-set"
+      ],
+      "reviews": [
+        {
+          "id": "r-005-1",
+          "author": "Yemi T.",
+          "initials": "YT",
+          "rating": 5,
+          "date": "March 17, 2026",
+          "title": "So fresh, so green",
+          "comment": "The vegetables actually taste like vegetables. Smoky turkey is heavenly.",
+          "verified": true
+        },
+        {
+          "id": "r-005-2",
+          "author": "Obi N.",
+          "initials": "ON",
+          "rating": 5,
+          "date": "March 03, 2026",
+          "title": "Comfort in a bowl",
+          "comment": "Reminds me of Sundays at my mum's table. Beautiful work.",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "p-006",
+      "slug": "banga-soup",
+      "name": "Banga Soup",
+      "category": "soups-and-stews",
+      "price": 20000,
+      "shortDescription": "Niger Delta palm fruit soup with catfish, beef and our beletete-banga spice blend.",
+      "description": "Palm fruit pulp pressed in-house and simmered with catfish, beef, and our proprietary banga spice blend of beletete, oburunbebe and rohojie. Earthy, nutty and unmistakably Delta.",
+      "image": "/images/banga.jpg",
+      "ingredients": [
+        "Palm fruit",
+        "Catfish",
+        "Beef",
+        "Beletete",
+        "Oburunbebe stick",
+        "Scent leaf"
+      ],
+      "dietary": [
+        "gluten-free",
+        "dairy-free",
+        "spicy"
+      ],
+      "spiceLevel": 2,
+      "prepTimeMinutes": 55,
+      "servingSize": "Serves 1",
+      "calories": 690,
+      "rating": 4.7,
+      "reviewCount": 64,
+      "pairings": [
+        "pounded-yam-set"
+      ],
+      "reviews": [
+        {
+          "id": "r-006-1",
+          "author": "Ebi P.",
+          "initials": "EP",
+          "rating": 5,
+          "date": "March 09, 2026",
+          "title": "Delta excellence",
+          "comment": "Tastes like home in Warri. The beletete is on point.",
+          "verified": true
+        },
+        {
+          "id": "r-006-2",
+          "author": "Tare B.",
+          "initials": "TB",
+          "rating": 4,
+          "date": "February 25, 2026",
+          "title": "Rich and warming",
+          "comment": "Catfish was generous and fresh. Lovely depth of flavour.",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "p-007",
+      "slug": "catfish-pepper-soup",
+      "name": "Catfish Pepper Soup",
+      "category": "soups-and-stews",
+      "price": 22000,
+      "shortDescription": "Whole catfish in clear, fiery broth with scent leaves, ehuru and uziza.",
+      "description": "A clear, intensely aromatic broth built from ehuru, uziza, calabash nutmeg and scent leaves, simmered with chunks of fresh catfish until tender. Cleansing, deeply spiced, and impossibly good for the soul.",
+      "image": "/images/pepper-soup.jpg",
+      "ingredients": [
+        "Catfish",
+        "Ehuru",
+        "Uziza",
+        "Calabash nutmeg",
+        "Scent leaf",
+        "Scotch bonnet"
+      ],
+      "dietary": [
+        "gluten-free",
+        "dairy-free",
+        "spicy"
+      ],
+      "spiceLevel": 3,
+      "prepTimeMinutes": 30,
+      "servingSize": "Serves 1",
+      "calories": 320,
+      "rating": 4.8,
+      "reviewCount": 109,
+      "isNew": true,
+      "pairings": [
+        "chapman-reserve"
+      ],
+      "reviews": [
+        {
+          "id": "r-007-1",
+          "author": "Amaka R.",
+          "initials": "AR",
+          "rating": 5,
+          "date": "March 21, 2026",
+          "title": "Cure in a bowl",
+          "comment": "Had a cold, this fixed me in 24 hours. Unreal aromatic depth.",
+          "verified": true
+        },
+        {
+          "id": "r-007-2",
+          "author": "Henry I.",
+          "initials": "HI",
+          "rating": 5,
+          "date": "March 04, 2026",
+          "title": "Spicy perfection",
+          "comment": "Carried real heat without overpowering the fish. Beautifully balanced.",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "p-008",
+      "slug": "tanit-suya-skewers",
+      "name": "Tanit Suya Skewers",
+      "category": "grills-and-skewers",
+      "price": 14500,
+      "shortDescription": "Charcoal-grilled beef skewers crusted in our 14-spice yaji blend.",
+      "description": "Hand-cut sirloin marinated in groundnut oil and a 14-spice yaji blend, grilled hot and fast over charcoal until the edges char. Served with sliced onions, tomato and cabbage and a side of Tanit yaji dust.",
+      "image": "/images/suya.jpg",
+      "ingredients": [
+        "Beef sirloin",
+        "Groundnut oil",
+        "Tanit yaji (14-spice)",
+        "Onion",
+        "Tomato"
+      ],
+      "dietary": [
+        "gluten-free",
+        "dairy-free",
+        "spicy",
+        "contains-nuts"
+      ],
+      "spiceLevel": 3,
+      "prepTimeMinutes": 25,
+      "servingSize": "3 skewers",
+      "calories": 480,
+      "rating": 4.9,
+      "reviewCount": 213,
+      "bestseller": true,
+      "featured": true,
+      "pairings": [
+        "royal-jollof-rice",
+        "chapman-reserve"
+      ],
+      "reviews": [
+        {
+          "id": "r-008-1",
+          "author": "Ola K.",
+          "initials": "OK",
+          "rating": 5,
+          "date": "March 23, 2026",
+          "title": "The best suya in the city",
+          "comment": "Crust is unreal. Yaji has the right peanut depth, not too dusty.",
+          "verified": true
+        },
+        {
+          "id": "r-008-2",
+          "author": "Mariam S.",
+          "initials": "MS",
+          "rating": 5,
+          "date": "March 14, 2026",
+          "title": "Smoky perfection",
+          "comment": "I taste the charcoal in every bite. Beef was tender, never dry.",
+          "verified": true
+        },
+        {
+          "id": "r-008-3",
+          "author": "Joseph A.",
+          "initials": "JA",
+          "rating": 5,
+          "date": "February 29, 2026",
+          "title": "Worth the trip",
+          "comment": "I drive 40 minutes for these and I'd drive 80.",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "p-009",
+      "slug": "asun-peppered-goat",
+      "name": "Asun (Peppered Goat)",
+      "category": "grills-and-skewers",
+      "price": 21500,
+      "shortDescription": "Smoked goat tossed in a blistered scotch bonnet pepper sauce.",
+      "description": "Goat shoulder smoked low until tender, finished hot in a wok with blistered scotch bonnet, red onion and green pepper. Punchy, smoky and unapologetically hot.",
+      "image": "/images/asun.jpg",
+      "ingredients": [
+        "Goat shoulder",
+        "Scotch bonnet",
+        "Red onion",
+        "Green pepper",
+        "Garlic"
+      ],
+      "dietary": [
+        "gluten-free",
+        "dairy-free",
+        "spicy"
+      ],
+      "spiceLevel": 3,
+      "prepTimeMinutes": 60,
+      "servingSize": "Serves 1-2",
+      "calories": 560,
+      "rating": 4.8,
+      "reviewCount": 97,
+      "pairings": [
+        "chapman-reserve",
+        "small-chops-royale"
+      ],
+      "reviews": [
+        {
+          "id": "r-009-1",
+          "author": "Chinedu O.",
+          "initials": "CO",
+          "rating": 5,
+          "date": "March 18, 2026",
+          "title": "Properly hot",
+          "comment": "This is asun the way it should be. Smoke, heat, tenderness — all there.",
+          "verified": true
+        },
+        {
+          "id": "r-009-2",
+          "author": "Aisha B.",
+          "initials": "AB",
+          "rating": 5,
+          "date": "March 05, 2026",
+          "title": "Phenomenal",
+          "comment": "Goat was so tender it fell apart. Heat builds beautifully.",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "p-010",
+      "slug": "grilled-tilapia",
+      "name": "Grilled Tilapia",
+      "category": "grills-and-skewers",
+      "price": 24000,
+      "shortDescription": "Whole tilapia rubbed with herbs, scored and grilled, served with pepper dip.",
+      "description": "A whole tilapia scored, rubbed with garlic, ginger, thyme and our seafood spice, then grilled until the skin is crisp and the flesh flakes. Served with a side of fresh tomato pepper dip and grilled lime.",
+      "image": "/images/tilapia.jpg",
+      "ingredients": [
+        "Whole tilapia",
+        "Garlic",
+        "Ginger",
+        "Thyme",
+        "Lime",
+        "Tomato pepper dip"
+      ],
+      "dietary": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "spiceLevel": 2,
+      "prepTimeMinutes": 35,
+      "servingSize": "Serves 1",
+      "calories": 410,
+      "rating": 4.7,
+      "reviewCount": 58,
+      "pairings": [
+        "zobo-spritz"
+      ],
+      "reviews": [
+        {
+          "id": "r-010-1",
+          "author": "Tobi A.",
+          "initials": "TA",
+          "rating": 5,
+          "date": "March 16, 2026",
+          "title": "Skin so crispy",
+          "comment": "Skin shattered, flesh was perfectly cooked. Pepper dip was elite.",
+          "verified": true
+        },
+        {
+          "id": "r-010-2",
+          "author": "Linda C.",
+          "initials": "LC",
+          "rating": 4,
+          "date": "February 28, 2026",
+          "title": "Fresh and clean",
+          "comment": "Beautifully grilled and seasoned. Could use a touch more lime for me.",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "p-011",
+      "slug": "pounded-yam-set",
+      "name": "Pounded Yam Set",
+      "category": "swallows",
+      "price": 8500,
+      "shortDescription": "Hand-pounded white yam, silky smooth, wrapped warm.",
+      "description": "Premium puna yam, boiled and hand-pounded the traditional way until silky and stretch. Wrapped warm and sealed for the perfect texture every time. Pairs with any soup.",
+      "image": "/images/pounded-yam.jpg",
+      "ingredients": [
+        "Puna yam"
+      ],
+      "dietary": [
+        "gluten-free",
+        "dairy-free",
+        "vegan",
+        "vegetarian"
+      ],
+      "spiceLevel": 0,
+      "prepTimeMinutes": 20,
+      "servingSize": "Serves 1",
+      "calories": 380,
+      "rating": 4.8,
+      "reviewCount": 124,
+      "pairings": [
+        "royal-egusi",
+        "efo-riro-royale",
+        "banga-soup"
+      ],
+      "reviews": [
+        {
+          "id": "r-011-1",
+          "author": "Bisi O.",
+          "initials": "BO",
+          "rating": 5,
+          "date": "March 20, 2026",
+          "title": "Stretchy and smooth",
+          "comment": "Just like home. No lumps, no stickiness, perfect.",
+          "verified": true
+        },
+        {
+          "id": "r-011-2",
+          "author": "Kunle A.",
+          "initials": "KA",
+          "rating": 5,
+          "date": "March 08, 2026",
+          "title": "How it should be done",
+          "comment": "You can taste the care. Best pounded yam I've had outside of family.",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "p-012",
+      "slug": "amala-ewedu",
+      "name": "Amala & Ewedu",
+      "category": "swallows",
+      "price": 9500,
+      "shortDescription": "Yam-flour amala paired with ewedu and gbegiri — the classic abula trio.",
+      "description": "Smooth amala made from elubo, paired with bright green ewedu, rich gbegiri and a peppery stew. The sacred Yoruba trinity, served the way Ibadan intended.",
+      "image": "/images/amala.jpg",
+      "ingredients": [
+        "Yam flour (elubo)",
+        "Jute leaves (ewedu)",
+        "Beans (gbegiri)",
+        "Pepper stew"
+      ],
+      "dietary": [
+        "gluten-free",
+        "dairy-free",
+        "vegetarian"
+      ],
+      "spiceLevel": 1,
+      "prepTimeMinutes": 25,
+      "servingSize": "Serves 1",
+      "calories": 520,
+      "rating": 4.7,
+      "reviewCount": 76,
+      "pairings": [
+        "royal-egusi"
+      ],
+      "reviews": [
+        {
+          "id": "r-012-1",
+          "author": "Funke L.",
+          "initials": "FL",
+          "rating": 5,
+          "date": "March 13, 2026",
+          "title": "Ibadan in Ilorin",
+          "comment": "Authentic abula. The gbegiri was velvety, ewedu was draw and bright.",
+          "verified": true
+        },
+        {
+          "id": "r-012-2",
+          "author": "Wale A.",
+          "initials": "WA",
+          "rating": 4,
+          "date": "February 22, 2026",
+          "title": "Beautiful balance",
+          "comment": "Amala texture was on point. Loved it.",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "p-013",
+      "slug": "small-chops-royale",
+      "name": "Small Chops Royale",
+      "category": "small-chops",
+      "price": 16500,
+      "shortDescription": "Puff puff, samosa, spring rolls, peppered wings and meat pie — the full party platter.",
+      "description": "Our flagship platter for two: golden puff puff, mini samosas, spring rolls, peppered chicken wings, mini meat pies and stick-meat suya, with sweet chili and yaji dips. The heart of any Tanit gathering.",
+      "image": "/images/small-chops.jpg",
+      "ingredients": [
+        "Puff puff",
+        "Samosa",
+        "Spring roll",
+        "Peppered wings",
+        "Meat pie",
+        "Stick meat"
+      ],
+      "dietary": [
+        "spicy",
+        "chef-special"
+      ],
+      "spiceLevel": 2,
+      "prepTimeMinutes": 40,
+      "servingSize": "Serves 2-3",
+      "calories": 1240,
+      "rating": 4.9,
+      "reviewCount": 167,
+      "bestseller": true,
+      "featured": true,
+      "pairings": [
+        "chapman-reserve",
+        "zobo-spritz"
+      ],
+      "reviews": [
+        {
+          "id": "r-013-1",
+          "author": "Zainab Y.",
+          "initials": "ZY",
+          "rating": 5,
+          "date": "March 24, 2026",
+          "title": "Party in a box",
+          "comment": "Ordered for a baby shower — it disappeared. Everything was hot, fresh and crisp.",
+          "verified": true
+        },
+        {
+          "id": "r-013-2",
+          "author": "Emeka D.",
+          "initials": "ED",
+          "rating": 5,
+          "date": "March 12, 2026",
+          "title": "All the favourites",
+          "comment": "Wings had real heat. Puff puff was light and airy. 10/10.",
+          "verified": true
+        },
+        {
+          "id": "r-013-3",
+          "author": "Hauwa M.",
+          "initials": "HM",
+          "rating": 5,
+          "date": "February 26, 2026",
+          "title": "Best value on the menu",
+          "comment": "Great variety, generous portions, beautifully packaged.",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "p-014",
+      "slug": "moin-moin-trio",
+      "name": "Moin Moin Trio",
+      "category": "small-chops",
+      "price": 7500,
+      "shortDescription": "Three steamed bean cakes — classic, with fish and with egg.",
+      "description": "Honey beans peeled and stone-blended with red pepper and onion, steamed gently in leaves until set. We serve three variations — classic, with smoked fish and with hard-boiled egg.",
+      "image": "/images/moin-moin.jpg",
+      "ingredients": [
+        "Honey beans",
+        "Red pepper",
+        "Smoked fish",
+        "Egg",
+        "Palm oil"
+      ],
+      "dietary": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "spiceLevel": 1,
+      "prepTimeMinutes": 50,
+      "servingSize": "3 pieces",
+      "calories": 380,
+      "rating": 4.7,
+      "reviewCount": 52,
+      "pairings": [
+        "royal-jollof-rice"
+      ],
+      "reviews": [
+        {
+          "id": "r-014-1",
+          "author": "Grace I.",
+          "initials": "GI",
+          "rating": 5,
+          "date": "March 11, 2026",
+          "title": "Pillowy soft",
+          "comment": "Texture was spot on, beautifully seasoned.",
+          "verified": true
+        },
+        {
+          "id": "r-014-2",
+          "author": "Sam O.",
+          "initials": "SO",
+          "rating": 4,
+          "date": "February 24, 2026",
+          "title": "Lovely classic",
+          "comment": "Loved the egg version best. Great with jollof.",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "p-015",
+      "slug": "jollof-risotto",
+      "name": "Jollof Risotto",
+      "category": "modern-fusion",
+      "price": 24500,
+      "shortDescription": "Carnaroli risotto in jollof base, finished with parmesan and seared chicken.",
+      "description": "A love letter to Ilorin and Lombardy — Carnaroli rice cooked low and slow in our jollof base, mounted with butter and parmesan and crowned with a perfectly seared chicken supreme. The hero of our modern fusion menu.",
+      "image": "/images/jollof-risotto.jpg",
+      "ingredients": [
+        "Carnaroli rice",
+        "Tomato base",
+        "Parmesan",
+        "Butter",
+        "Chicken supreme",
+        "Basil"
+      ],
+      "dietary": [
+        "chef-special"
+      ],
+      "spiceLevel": 1,
+      "prepTimeMinutes": 40,
+      "servingSize": "Serves 1",
+      "calories": 690,
+      "rating": 4.9,
+      "reviewCount": 88,
+      "isNew": true,
+      "featured": true,
+      "pairings": [
+        "chapman-reserve"
+      ],
+      "reviews": [
+        {
+          "id": "r-015-1",
+          "author": "Olivia M.",
+          "initials": "OM",
+          "rating": 5,
+          "date": "March 25, 2026",
+          "title": "Stunning concept",
+          "comment": "I was skeptical and now I'm a convert. Creamy, smoky, perfectly al dente.",
+          "verified": true
+        },
+        {
+          "id": "r-015-2",
+          "author": "Daniel U.",
+          "initials": "DU",
+          "rating": 5,
+          "date": "March 15, 2026",
+          "title": "Fine dining at home",
+          "comment": "Would not be out of place at a Michelin tasting menu.",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "p-016",
+      "slug": "suya-tacos",
+      "name": "Suya Tacos",
+      "category": "modern-fusion",
+      "price": 18500,
+      "shortDescription": "Three soft tortillas with suya beef, red cabbage slaw and yaji aioli.",
+      "description": "Charcoal-grilled suya beef tucked into warm flour tortillas with crisp red cabbage slaw, pickled onion and a smoky yaji aioli. A west-meets-west handheld.",
+      "image": "/images/suya-tacos.jpg",
+      "ingredients": [
+        "Beef suya",
+        "Flour tortilla",
+        "Red cabbage",
+        "Pickled onion",
+        "Yaji aioli"
+      ],
+      "dietary": [
+        "spicy",
+        "contains-nuts"
+      ],
+      "spiceLevel": 2,
+      "prepTimeMinutes": 25,
+      "servingSize": "3 tacos",
+      "calories": 620,
+      "rating": 4.8,
+      "reviewCount": 74,
+      "isNew": true,
+      "pairings": [
+        "chapman-reserve"
+      ],
+      "reviews": [
+        {
+          "id": "r-016-1",
+          "author": "Jide O.",
+          "initials": "JO",
+          "rating": 5,
+          "date": "March 19, 2026",
+          "title": "Inspired",
+          "comment": "The yaji aioli is a stroke of genius.",
+          "verified": true
+        },
+        {
+          "id": "r-016-2",
+          "author": "Priya N.",
+          "initials": "PN",
+          "rating": 5,
+          "date": "March 06, 2026",
+          "title": "So good",
+          "comment": "I've ordered these four times this month. They never miss.",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "p-017",
+      "slug": "plantain-gnocchi",
+      "name": "Plantain Gnocchi",
+      "category": "modern-fusion",
+      "price": 19500,
+      "shortDescription": "Plantain gnocchi in brown butter sage with parmesan and toasted hazelnut.",
+      "description": "Pillowy plantain gnocchi tossed in nutty brown butter and sage, finished with shaved parmesan and toasted hazelnut. Comforting, elegant, unexpected.",
+      "image": "/images/plantain-gnocchi.jpg",
+      "ingredients": [
+        "Sweet plantain",
+        "Flour",
+        "Egg",
+        "Brown butter",
+        "Sage",
+        "Hazelnut"
+      ],
+      "dietary": [
+        "vegetarian",
+        "contains-nuts"
+      ],
+      "spiceLevel": 0,
+      "prepTimeMinutes": 30,
+      "servingSize": "Serves 1",
+      "calories": 580,
+      "rating": 4.7,
+      "reviewCount": 41,
+      "pairings": [
+        "zobo-spritz"
+      ],
+      "reviews": [
+        {
+          "id": "r-017-1",
+          "author": "Mia C.",
+          "initials": "MC",
+          "rating": 5,
+          "date": "March 17, 2026",
+          "title": "So creative",
+          "comment": "The plantain sweetness against brown butter is unreal.",
+          "verified": true
+        },
+        {
+          "id": "r-017-2",
+          "author": "Sofia R.",
+          "initials": "SR",
+          "rating": 4,
+          "date": "February 21, 2026",
+          "title": "Lovely texture",
+          "comment": "Beautifully balanced. Would order again.",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "p-018",
+      "slug": "chapman-reserve",
+      "name": "Chapman Reserve",
+      "category": "drinks",
+      "price": 4500,
+      "shortDescription": "House-made chapman with bitters, cucumber, citrus and grenadine.",
+      "description": "Our reserve chapman: angostura bitters, fresh citrus, grenadine and cucumber tossed with sparkling lemon-lime soda. Bright, herbaceous, deeply nostalgic.",
+      "image": "/images/chapman.jpg",
+      "ingredients": [
+        "Angostura bitters",
+        "Lemon",
+        "Lime",
+        "Cucumber",
+        "Grenadine",
+        "Soda"
+      ],
+      "dietary": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "spiceLevel": 0,
+      "prepTimeMinutes": 5,
+      "servingSize": "500ml",
+      "calories": 180,
+      "rating": 4.9,
+      "reviewCount": 201,
+      "bestseller": true,
+      "featured": true,
+      "pairings": [
+        "royal-jollof-rice",
+        "tanit-suya-skewers"
+      ],
+      "reviews": [
+        {
+          "id": "r-018-1",
+          "author": "Tola B.",
+          "initials": "TB",
+          "rating": 5,
+          "date": "March 23, 2026",
+          "title": "Childhood, bottled",
+          "comment": "Tastes exactly like the chapman from my favourite restaurant growing up. Better even.",
+          "verified": true
+        },
+        {
+          "id": "r-018-2",
+          "author": "Rita E.",
+          "initials": "RE",
+          "rating": 5,
+          "date": "March 09, 2026",
+          "title": "So refreshing",
+          "comment": "Perfect with the suya. Goes down too easy.",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "p-019",
+      "slug": "zobo-spritz",
+      "name": "Zobo Spritz",
+      "category": "drinks",
+      "price": 3800,
+      "shortDescription": "Hibiscus zobo with ginger, pineapple and a splash of soda.",
+      "description": "Fresh hibiscus petals steeped with ginger, clove and pineapple, lengthened with chilled soda water. Floral, tart, gently spicy and ruby red.",
+      "image": "/images/zobo.jpg",
+      "ingredients": [
+        "Hibiscus petals",
+        "Ginger",
+        "Pineapple",
+        "Clove",
+        "Soda water"
+      ],
+      "dietary": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "spiceLevel": 0,
+      "prepTimeMinutes": 5,
+      "servingSize": "500ml",
+      "calories": 140,
+      "rating": 4.8,
+      "reviewCount": 116,
+      "pairings": [
+        "coconut-jollof-prawns",
+        "grilled-tilapia"
+      ],
+      "reviews": [
+        {
+          "id": "r-019-1",
+          "author": "Kemi F.",
+          "initials": "KF",
+          "rating": 5,
+          "date": "March 22, 2026",
+          "title": "Floral and bright",
+          "comment": "The ginger gives it a beautiful kick. Not overly sweet.",
+          "verified": true
+        },
+        {
+          "id": "r-019-2",
+          "author": "Adesuwa O.",
+          "initials": "AO",
+          "rating": 5,
+          "date": "March 07, 2026",
+          "title": "Stunning colour and taste",
+          "comment": "Could drink this every day. Very refreshing.",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "p-020",
+      "slug": "puff-puff-salted-caramel",
+      "name": "Puff Puff & Salted Caramel",
+      "category": "desserts",
+      "price": 6500,
+      "shortDescription": "Six golden puff puffs dusted in cinnamon sugar with warm salted caramel.",
+      "description": "Six pillowy yeast-raised puff puffs, fried hot until golden, tossed in cinnamon sugar and served warm with a side of slow-cooked salted caramel for dipping. Pure joy.",
+      "image": "/images/puff-puff.jpg",
+      "ingredients": [
+        "Flour",
+        "Yeast",
+        "Sugar",
+        "Nutmeg",
+        "Cinnamon",
+        "Salted caramel"
+      ],
+      "dietary": [
+        "vegetarian"
+      ],
+      "spiceLevel": 0,
+      "prepTimeMinutes": 25,
+      "servingSize": "6 pieces",
+      "calories": 540,
+      "rating": 4.9,
+      "reviewCount": 132,
+      "isNew": true,
+      "pairings": [
+        "chapman-reserve"
+      ],
+      "reviews": [
+        {
+          "id": "r-020-1",
+          "author": "Ada N.",
+          "initials": "AN",
+          "rating": 5,
+          "date": "March 21, 2026",
+          "title": "Childhood reborn",
+          "comment": "Light, airy and that caramel — wow. Don't share.",
+          "verified": true
+        },
+        {
+          "id": "r-020-2",
+          "author": "Lola J.",
+          "initials": "LJ",
+          "rating": 5,
+          "date": "March 02, 2026",
+          "title": "Dangerous",
+          "comment": "Six was not enough.",
+          "verified": true
+        }
+      ]
+    }
+  ]
+}
