@@ -56,3 +56,35 @@ terminal running Django.
 ```
 
 The verify endpoint creates the user and returns JWT `access` and `refresh` tokens.
+
+## Render + Supabase Deployment
+
+This backend is prepared for Render as a Python web service using Supabase PostgreSQL.
+
+Render settings:
+
+- Root Directory: `backend`
+- Runtime: `Python 3`
+- Build Command: `bash build.sh`
+- Start Command: `gunicorn config.wsgi:application`
+- Health Check Path: `/api/health/`
+
+Required production environment variables:
+
+```env
+DJANGO_SECRET_KEY=generate-a-long-secret
+DJANGO_DEBUG=false
+DJANGO_ALLOWED_HOSTS=your-service.onrender.com,your-api-domain.com
+DJANGO_CORS_ALLOWED_ORIGINS=https://your-vercel-app.vercel.app,https://your-domain.com
+DJANGO_CSRF_TRUSTED_ORIGINS=https://your-vercel-app.vercel.app,https://your-domain.com
+DATABASE_URL=postgresql://...
+DATABASE_SSL_REQUIRE=true
+DATABASE_CONN_MAX_AGE=600
+```
+
+After first deploy, open the Render shell and run:
+
+```bash
+python manage.py createsuperuser
+python manage.py seed_catalog
+```
