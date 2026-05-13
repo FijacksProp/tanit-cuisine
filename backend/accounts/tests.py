@@ -92,3 +92,29 @@ class AccountAuthTests(TestCase):
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_email_verified)
         self.assertTrue(user.check_password("strong-admin-password"))
+
+    def test_email_diagnostics_requires_staff(self):
+        user = User.objects.create_user(
+            email="guest@example.com",
+            full_name="Test Guest",
+            password="strong-password",
+            is_email_verified=True,
+        )
+        self.client.force_authenticate(user=user)
+        response = self.client.post("/api/auth/email-test/", {}, format="json")
+        self.assertEqual(response.status_code, 403)
+
+    def test_staff_can_send_email_diagnostics(self):
+        user = User.objects.create_user(
+            email="staff@example.com",
+            full_name="Staff User",
+            password="strong-password",
+            is_staff=True,
+            is_email_verified=True,
+        )
+        self.client.force_authenticate(user=user)
+        response = self.client.post("/api/auth/email-test/", {}, format="json")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].to, ["staff@example.com"])
+        self.assertIn("backend", response.data)

@@ -1,3 +1,5 @@
+import smtplib
+
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
@@ -73,13 +75,18 @@ class SignupStartSerializer(serializers.Serializer):
             password_hash=make_password(validated_data["password"]),
             expires_at=EmailOTP.expiry(),
         )
-        send_mail(
-            subject="Your Tanit Cuisine verification code",
-            message=f"Your Tanit Cuisine signup code is {code}. It expires in 10 minutes.",
-            from_email=None,
-            recipient_list=[otp.email],
-            fail_silently=False,
-        )
+        try:
+            send_mail(
+                subject="Your Tanit Cuisine verification code",
+                message=f"Your Tanit Cuisine signup code is {code}. It expires in 10 minutes.",
+                from_email=None,
+                recipient_list=[otp.email],
+                fail_silently=False,
+            )
+        except smtplib.SMTPException as exc:
+            raise serializers.ValidationError(
+                {"email": "We could not send the verification email. Please try again shortly."}
+            ) from exc
         return otp
 
     def to_representation(self, instance):

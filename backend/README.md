@@ -135,3 +135,16 @@ If signin/signup shows `Failed to fetch`, the browser cannot reach the Django AP
 - Render has `DJANGO_CORS_ALLOWED_ORIGINS=https://your-vercel-site.vercel.app`
 - Render has `DJANGO_CSRF_TRUSTED_ORIGINS=https://your-vercel-site.vercel.app`
 - The Render backend is deployed and `/api/health/` opens in the browser
+
+To test SMTP without creating a new user, sign in as a staff/superuser and call:
+
+```http
+POST /api/auth/email-test/
+Authorization: Bearer <staff-access-token>
+Content-Type: application/json
+
+{}
+```
+
+The endpoint sends a test email to the staff user's email and returns the Django email backend,
+SMTP host, port, TLS/SSL mode, and from address.
