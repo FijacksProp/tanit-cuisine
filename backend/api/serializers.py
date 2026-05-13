@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import time
+import uuid
 
 from django.db import transaction
+from django.utils import timezone
 from rest_framework import serializers
 
 from .models import (
@@ -30,6 +32,52 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ["id", "author", "initials", "rating", "date", "title", "comment", "verified"]
+
+
+class ReviewCreateSerializer(serializers.Serializer):
+    rating = serializers.IntegerField(min_value=1, max_value=5)
+    title = serializers.CharField(max_length=160)
+    comment = serializers.CharField(min_length=10)
+
+    def validate(self, attrs):
+        product = self.context["product"]
+        user = self.context["request"].user
+        if Review.objects.filter(product=product, user=user).exists():
+            raise serializers.ValidationError("You have already reviewed this meal.")
+        return attrs
+
+    def create(self, validated_data):
+        product = self.context["product"]
+        user = self.context["request"].user
+        order_item = (
+            OrderItem.objects.filter(order__user=user, product=product)
+            .select_related("order")
+            .order_by("-order__created_at")
+            .first()
+        )
+        full_name = user.full_name or user.email
+        initials = "".join(part[:1] for part in full_name.split()[:2]).upper() or user.email[:2].upper()
+        return Review.objects.create(
+            product=product,
+            user=user,
+            order_item=order_item,
+            external_id=f"r-user-{uuid.uuid4().hex[:12]}",
+            author=full_name,
+            initials=initials,
+            rating=validated_data["rating"],
+            reviewed_at=timezone.localdate(),
+            title=validated_data["title"],
+            comment=validated_data["comment"],
+            verified=order_item is not None,
+            is_visible=True,
+        )
+
+    def to_representation(self, instance):
+        return {
+            "review": ReviewSerializer(instance).data,
+            "productRating": float(instance.product.rating),
+            "productReviewCount": instance.product.review_count,
+        }
 
 
 class ProductListSerializer(serializers.ModelSerializer):
@@ -176,6 +224,7 @@ class OrderCreateSerializer(serializers.Serializer):
 
         order = Order.objects.create(
             order_number=self.generate_order_number(),
+            user=self.get_user(),
             customer=customer,
             full_name=validated_data["fullName"],
             email=validated_data["email"],
@@ -209,6 +258,12 @@ class OrderCreateSerializer(serializers.Serializer):
             )
 
         return order
+
+    def get_user(self):
+        request = self.context.get("request")
+        if request and request.user.is_authenticated:
+            return request.user
+        return None
 
     @staticmethod
     def get_delivery_fee(delivery: str, subtotal: int) -> int:

@@ -87,4 +87,4 @@ class ContactMessageAdmin(admin.ModelAdmin):
 @admin.register(WishlistItem)
 class WishlistItemAdmin(admin.ModelAdmin):
     list_display = ("product", "user", "session_key", "created_at")
-    search_fields = ("product__name", "user__username", "session_key")
+    search_fields = ("product__name", "user__email", "session_key")

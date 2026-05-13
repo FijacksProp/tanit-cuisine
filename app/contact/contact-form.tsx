@@ -8,13 +8,15 @@ import { Field, FieldGroup, FieldLabel, FieldError } from "@/components/ui/field
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { CheckCircle2 } from "lucide-react"
 import { toast } from "sonner"
+import { apiRequest } from "@/lib/api"
 
 export function ContactForm() {
   const [form, setForm] = React.useState({ name: "", email: "", topic: "general", message: "" })
   const [errors, setErrors] = React.useState<Partial<Record<keyof typeof form, string>>>({})
   const [sent, setSent] = React.useState(false)
+  const [submitting, setSubmitting] = React.useState(false)
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault()
     const errs: typeof errors = {}
     if (!form.name.trim()) errs.name = "Required"
@@ -23,8 +25,20 @@ export function ContactForm() {
       errs.message = "Please share a few sentences"
     setErrors(errs)
     if (Object.keys(errs).length) return
-    setSent(true)
-    toast.success("Message sent. We'll be in touch shortly.")
+
+    setSubmitting(true)
+    try {
+      await apiRequest("/contact/", {
+        method: "POST",
+        body: JSON.stringify(form),
+      })
+      setSent(true)
+      toast.success("Message sent. We'll be in touch shortly.")
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Unable to send your message")
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   if (sent) {
@@ -91,8 +105,8 @@ export function ContactForm() {
           />
           {errors.message && <FieldError>{errors.message}</FieldError>}
         </Field>
-        <Button type="submit" size="lg" className="rounded-full self-start">
-          Send message
+        <Button type="submit" size="lg" disabled={submitting} className="rounded-full self-start">
+          {submitting ? "Sending..." : "Send message"}
         </Button>
       </FieldGroup>
     </form>

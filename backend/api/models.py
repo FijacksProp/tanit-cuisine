@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.db.models import Avg
 
 
 class TimeStampedModel(models.Model):
@@ -64,9 +65,18 @@ class Product(TimeStampedModel):
     def __str__(self) -> str:
         return self.name
 
+    def refresh_review_stats(self) -> None:
+        stats = self.reviews.filter(is_visible=True).aggregate(avg=Avg("rating"))
+        count = self.reviews.filter(is_visible=True).count()
+        self.rating = round(stats["avg"] or 0, 1)
+        self.review_count = count
+        self.save(update_fields=["rating", "review_count", "updated_at"])
+
 
 class Review(TimeStampedModel):
     product = models.ForeignKey(Product, related_name="reviews", on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="reviews", null=True, blank=True, on_delete=models.SET_NULL)
+    order_item = models.ForeignKey("OrderItem", related_name="reviews", null=True, blank=True, on_delete=models.SET_NULL)
     external_id = models.CharField(max_length=64, unique=True)
     author = models.CharField(max_length=120)
     initials = models.CharField(max_length=8)
@@ -79,9 +89,26 @@ class Review(TimeStampedModel):
 
     class Meta:
         ordering = ["-reviewed_at", "-created_at"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["product", "user"],
+                condition=models.Q(user__isnull=False),
+                name="unique_user_product_review",
+            ),
+        ]
 
     def __str__(self) -> str:
         return f"{self.product.name} - {self.author}"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.product.refresh_review_stats()
+
+    def delete(self, *args, **kwargs):
+        product = self.product
+        result = super().delete(*args, **kwargs)
+        product.refresh_review_stats()
+        return result
 
 
 class Customer(TimeStampedModel):
@@ -116,6 +143,7 @@ class Order(TimeStampedModel):
         CANCELLED = "cancelled", "Cancelled"
 
     order_number = models.CharField(max_length=24, unique=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="orders", null=True, blank=True, on_delete=models.SET_NULL)
     customer = models.ForeignKey(Customer, related_name="orders", null=True, blank=True, on_delete=models.SET_NULL)
     full_name = models.CharField(max_length=160)
     email = models.EmailField()

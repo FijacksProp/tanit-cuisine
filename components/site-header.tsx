@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { Heart, Menu, Search, ShoppingBag, X } from "lucide-react"
+import { Heart, LayoutDashboard, Menu, Search, ShoppingBag, User, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/sheet"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
+import { useAuth } from "@/lib/auth-context"
 import { useStore } from "@/lib/store-context"
 import { categories } from "@/lib/data"
 import { cn } from "@/lib/utils"
@@ -30,7 +31,9 @@ const navLinks = [
 export function SiteHeader() {
   const pathname = usePathname()
   const router = useRouter()
+  const { user } = useAuth()
   const { cartCount, wishlist, openCart } = useStore()
+  const [menuOpen, setMenuOpen] = React.useState(false)
   const [searchOpen, setSearchOpen] = React.useState(false)
   const [searchQuery, setSearchQuery] = React.useState("")
   const [scrolled, setScrolled] = React.useState(false)
@@ -74,10 +77,10 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 relative">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          <div className="flex items-center gap-2 md:gap-4 flex-1">
-            <Sheet>
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 relative">
+        <div className="grid grid-cols-[auto_1fr_auto] md:flex items-center h-16 md:h-20">
+          <div className="flex items-center gap-1 md:gap-4 md:flex-1">
+            <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
               <SheetTrigger asChild>
                 <Button
                   variant="ghost"
@@ -102,11 +105,21 @@ export function SiteHeader() {
                     <Link
                       key={link.href}
                       href={link.href}
+                      onClick={() => setMenuOpen(false)}
                       className="py-3 px-2 text-base font-medium hover:text-primary transition-colors border-b border-border/40 last:border-0"
                     >
                       {link.label}
                     </Link>
                   ))}
+                  {user?.isStaff && (
+                    <Link
+                      href="/admin"
+                      onClick={() => setMenuOpen(false)}
+                      className="py-3 px-2 text-base font-medium hover:text-primary transition-colors border-b border-border/40"
+                    >
+                      Admin Dashboard
+                    </Link>
+                  )}
                 </nav>
                 <div className="p-6">
                   <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-3">
@@ -117,6 +130,7 @@ export function SiteHeader() {
                       <Link
                         key={c.slug}
                         href={`/menu?category=${c.slug}`}
+                        onClick={() => setMenuOpen(false)}
                         className="py-2 text-sm hover:text-primary transition-colors"
                       >
                         {c.name}
@@ -145,23 +159,24 @@ export function SiteHeader() {
 
           <Link
             href="/"
-            className="absolute left-1/2 -translate-x-1/2 flex items-center"
+            className="flex items-center justify-center justify-self-center md:absolute md:left-1/2 md:-translate-x-1/2"
             aria-label="Tanit Cuisine home"
           >
-            <TanitLogo className="h-12 md:h-16" />
+            <TanitLogo className="h-9 sm:h-12 md:h-16" />
           </Link>
 
-          <div className="flex items-center gap-1 sm:gap-2 flex-1 justify-end">
+          <div className="flex items-center justify-end gap-0 md:gap-2 md:flex-1">
             <Button
               variant="ghost"
-              size="icon"
+              size="icon-sm"
               aria-label="Search"
+              className="md:size-9"
               onClick={() => setSearchOpen((s) => !s)}
             >
               <Search className="size-5" />
             </Button>
             <Link href="/wishlist" aria-label="Wishlist">
-              <Button variant="ghost" size="icon" className="relative">
+              <Button variant="ghost" size="icon-sm" className="relative md:size-9">
                 <Heart className="size-5" />
                 {wishlist.length > 0 && (
                   <Badge
@@ -173,11 +188,23 @@ export function SiteHeader() {
                 )}
               </Button>
             </Link>
+            <Link href={user ? "/account" : "/signin"} aria-label={user ? "Account" : "Sign in"}>
+              <Button variant="ghost" size="icon-sm" className="md:size-9">
+                <User className="size-5" />
+              </Button>
+            </Link>
+            {user?.isStaff && (
+              <Link href="/admin" aria-label="Staff dashboard">
+                <Button variant="ghost" size="icon-sm" className="md:size-9">
+                  <LayoutDashboard className="size-5" />
+                </Button>
+              </Link>
+            )}
             <Button
               variant="ghost"
-              size="icon"
+              size="icon-sm"
               aria-label="Cart"
-              className="relative"
+              className="relative md:size-9"
               onClick={openCart}
             >
               <ShoppingBag className="size-5" />

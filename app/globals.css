@@ -4,6 +4,9 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  --font-inter: Inter;
+  --font-playfair: 'Playfair Display';
+
   /* Warm earthy luxe palette - 5 colors total
      1. Warm cream background
      2. Deep espresso foreground

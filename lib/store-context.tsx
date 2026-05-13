@@ -3,6 +3,8 @@
 import * as React from "react"
 import type { CartItem, Product } from "./types"
 import { getProductById } from "./data"
+import { apiRequest } from "./api"
+import { useAuth } from "./auth-context"
 
 type StoreState = {
   cart: CartItem[]
@@ -16,6 +18,7 @@ type StoreAction =
   | { type: "UPDATE_QUANTITY"; productId: string; quantity: number }
   | { type: "CLEAR_CART" }
   | { type: "TOGGLE_WISHLIST"; productId: string }
+  | { type: "SET_WISHLIST"; productIds: string[] }
   | { type: "OPEN_CART" }
   | { type: "CLOSE_CART" }
   | { type: "TOGGLE_CART" }
@@ -41,6 +44,26 @@ const initialState: StoreState = {
   cart: [],
   wishlist: [],
   cartOpen: false,
+}
+
+const WISHLIST_SESSION_KEY = "tanit_wishlist_session"
+
+type WishlistApiItem = {
+  product: {
+    id: string
+  }
+}
+
+function getWishlistSessionKey() {
+  if (typeof window === "undefined") return ""
+
+  const existing = localStorage.getItem(WISHLIST_SESSION_KEY)
+  if (existing) return existing
+
+  const generated =
+    window.crypto?.randomUUID?.() ?? `guest-${Date.now()}-${Math.random().toString(16).slice(2)}`
+  localStorage.setItem(WISHLIST_SESSION_KEY, generated)
+  return generated
 }
 
 function reducer(state: StoreState, action: StoreAction): StoreState {
@@ -84,6 +107,8 @@ function reducer(state: StoreState, action: StoreAction): StoreState {
           : [...state.wishlist, action.productId],
       }
     }
+    case "SET_WISHLIST":
+      return { ...state, wishlist: action.productIds }
     case "OPEN_CART":
       return { ...state, cartOpen: true }
     case "CLOSE_CART":
@@ -97,6 +122,58 @@ function reducer(state: StoreState, action: StoreAction): StoreState {
 
 export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = React.useReducer(reducer, initialState)
+  const { accessToken, loading: authLoading } = useAuth()
+
+  React.useEffect(() => {
+    if (authLoading) return
+
+    const controller = new AbortController()
+    const sessionKey = accessToken ? "" : getWishlistSessionKey()
+    const path = accessToken
+      ? "/wishlist/"
+      : `/wishlist/?sessionKey=${encodeURIComponent(sessionKey)}`
+
+    apiRequest<WishlistApiItem[]>(path, {
+      token: accessToken,
+      signal: controller.signal,
+    })
+      .then((items) =>
+        dispatch({
+          type: "SET_WISHLIST",
+          productIds: items.map((item) => item.product.id),
+        }),
+      )
+      .catch((error) => {
+        if (error.name !== "AbortError") console.error("Failed to load wishlist", error)
+      })
+
+    return () => controller.abort()
+  }, [accessToken, authLoading])
+
+  const syncWishlistToggle = React.useCallback(
+    async (productId: string, shouldRemove: boolean) => {
+      const sessionKey = accessToken ? "" : getWishlistSessionKey()
+      const sessionQuery = accessToken ? "" : `?sessionKey=${encodeURIComponent(sessionKey)}`
+
+      if (shouldRemove) {
+        await apiRequest(`/wishlist/product/${productId}/${sessionQuery}`, {
+          method: "DELETE",
+          token: accessToken,
+        })
+        return
+      }
+
+      await apiRequest("/wishlist/", {
+        method: "POST",
+        token: accessToken,
+        body: JSON.stringify({
+          productId,
+          sessionKey,
+        }),
+      })
+    },
+    [accessToken],
+  )
 
   const value = React.useMemo<StoreContextValue>(() => {
     const cartItemsWithProduct = state.cart
@@ -120,7 +197,14 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       updateQuantity: (productId, quantity) =>
         dispatch({ type: "UPDATE_QUANTITY", productId, quantity }),
       clearCart: () => dispatch({ type: "CLEAR_CART" }),
-      toggleWishlist: (productId) => dispatch({ type: "TOGGLE_WISHLIST", productId }),
+      toggleWishlist: (productId) => {
+        const shouldRemove = state.wishlist.includes(productId)
+        dispatch({ type: "TOGGLE_WISHLIST", productId })
+        syncWishlistToggle(productId, shouldRemove).catch((error) => {
+          dispatch({ type: "TOGGLE_WISHLIST", productId })
+          console.error("Failed to update wishlist", error)
+        })
+      },
       isInWishlist: (productId) => state.wishlist.includes(productId),
       openCart: () => dispatch({ type: "OPEN_CART" }),
       closeCart: () => dispatch({ type: "CLOSE_CART" }),
@@ -129,7 +213,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       cartSubtotal,
       cartItemsWithProduct,
     }
-  }, [state])
+  }, [state, syncWishlistToggle])
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>
 }

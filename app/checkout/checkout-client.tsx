@@ -21,6 +21,9 @@ import { Separator } from "@/components/ui/separator"
 import { ChevronLeft, Lock, ShoppingBag } from "lucide-react"
 import { useStore } from "@/lib/store-context"
 import { formatNaira } from "@/lib/format"
+import { apiRequest } from "@/lib/api"
+import { useAuth } from "@/lib/auth-context"
+import { toast } from "sonner"
 
 type FormState = {
   fullName: string
@@ -37,6 +40,13 @@ type FormState = {
   cardExpiry: string
   cardCvc: string
   cardName: string
+}
+
+type OrderResponse = {
+  orderNumber: string
+  fullName: string
+  email: string
+  total: number
 }
 
 const initialForm: FormState = {
@@ -59,6 +69,7 @@ const initialForm: FormState = {
 export function CheckoutPageClient() {
   const router = useRouter()
   const { cartItemsWithProduct, cartSubtotal, cartCount, clearCart } = useStore()
+  const { accessToken, user } = useAuth()
   const [form, setForm] = React.useState<FormState>(initialForm)
   const [errors, setErrors] = React.useState<Partial<Record<keyof FormState, string>>>({})
   const [submitting, setSubmitting] = React.useState(false)
@@ -69,6 +80,21 @@ export function CheckoutPageClient() {
     form.delivery !== "pickup" && cartSubtotal >= 25000 ? 0 : baseDelivery
   const serviceFee = Math.round(cartSubtotal * 0.025)
   const total = cartSubtotal + deliveryFee + serviceFee
+
+  React.useEffect(() => {
+    if (!user) return
+
+    setForm((current) => ({
+      ...current,
+      fullName: current.fullName || user.fullName,
+      email: current.email || user.email,
+      phone: current.phone || user.phone,
+      address: current.address || user.defaultAddress,
+      city: current.city || user.city || "Ilorin",
+      state: current.state || user.state || "Kwara",
+      zip: current.zip || user.zip,
+    }))
+  }, [user])
 
   const update = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((f) => ({ ...f, [key]: value }))
@@ -103,11 +129,37 @@ export function CheckoutPageClient() {
       return
     }
     setSubmitting(true)
-    const orderId = `TC-${Date.now().toString().slice(-8)}`
-    // Simulate processing
-    await new Promise((r) => setTimeout(r, 1200))
-    clearCart()
-    router.push(`/order/success?id=${orderId}&name=${encodeURIComponent(form.fullName)}&email=${encodeURIComponent(form.email)}&total=${total}`)
+    try {
+      const order = await apiRequest<OrderResponse>("/orders/", {
+        method: "POST",
+        token: accessToken,
+        body: JSON.stringify({
+          fullName: form.fullName,
+          email: form.email,
+          phone: form.phone,
+          address: form.delivery === "pickup" ? "" : form.address,
+          city: form.city,
+          state: form.state,
+          zip: form.zip,
+          notes: form.notes,
+          delivery: form.delivery,
+          payment: form.payment,
+          items: cartItemsWithProduct.map(({ item }) => ({
+            productId: item.productId,
+            quantity: item.quantity,
+            notes: item.notes ?? "",
+          })),
+        }),
+      })
+      clearCart()
+      router.push(
+        `/order/success?id=${order.orderNumber}&name=${encodeURIComponent(order.fullName)}&email=${encodeURIComponent(order.email)}&total=${order.total}`,
+      )
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Unable to place your order")
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   if (cartCount === 0) {

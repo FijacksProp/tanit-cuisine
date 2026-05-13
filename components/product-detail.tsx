@@ -284,6 +284,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
         <div className="mt-16 md:mt-24">
           <ReviewsSection
+            productSlug={product.slug}
             rating={product.rating}
             reviewCount={product.reviewCount}
             reviews={product.reviews}

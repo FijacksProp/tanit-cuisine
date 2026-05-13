@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next"
 import { Inter, Playfair_Display } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Toaster } from "@/components/ui/sonner"
+import { AuthProvider } from "@/lib/auth-context"
 import { StoreProvider } from "@/lib/store-context"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
@@ -64,12 +65,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable} bg-background`}>
       <body className="font-sans antialiased min-h-screen flex flex-col">
-        <StoreProvider>
-          <SiteHeader />
-          <main className="flex-1">{children}</main>
-          <SiteFooter />
-          <CartDrawer />
-        </StoreProvider>
+        <AuthProvider>
+          <StoreProvider>
+            <SiteHeader />
+            <main className="flex-1">{children}</main>
+            <SiteFooter />
+            <CartDrawer />
+          </StoreProvider>
+        </AuthProvider>
         <Toaster position="top-center" />
         {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
