@@ -199,7 +199,9 @@ EMAIL_HOST = os.getenv("DJANGO_EMAIL_HOST", "")
 EMAIL_PORT = int(os.getenv("DJANGO_EMAIL_PORT", "587"))
 EMAIL_HOST_USER = os.getenv("DJANGO_EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.getenv("DJANGO_EMAIL_HOST_PASSWORD", "")
-EMAIL_USE_TLS = os.getenv("DJANGO_EMAIL_USE_TLS", "true").lower() == "true"
+EMAIL_USE_SSL = os.getenv("DJANGO_EMAIL_USE_SSL", "false").lower() == "true"
+EMAIL_USE_TLS = not EMAIL_USE_SSL and os.getenv("DJANGO_EMAIL_USE_TLS", "true").lower() == "true"
+EMAIL_TIMEOUT = int(os.getenv("DJANGO_EMAIL_TIMEOUT", "20"))
 
 if not DEBUG and not RUNNING_TESTS:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

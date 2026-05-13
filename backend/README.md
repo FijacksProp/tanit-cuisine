@@ -83,6 +83,15 @@ DATABASE_CONN_MAX_AGE=600
 DJANGO_SUPERUSER_EMAIL=admin@example.com
 DJANGO_SUPERUSER_PASSWORD=secure-admin-password
 DJANGO_SUPERUSER_FULL_NAME=Tanit Admin
+DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+DJANGO_DEFAULT_FROM_EMAIL=Tanit Cuisine <orders@your-domain.com>
+DJANGO_EMAIL_HOST=smtp-relay.brevo.com
+DJANGO_EMAIL_PORT=587
+DJANGO_EMAIL_HOST_USER=your-brevo-smtp-login
+DJANGO_EMAIL_HOST_PASSWORD=your-brevo-smtp-key
+DJANGO_EMAIL_USE_TLS=true
+DJANGO_EMAIL_USE_SSL=false
+DJANGO_EMAIL_TIMEOUT=20
 ```
 
 The Render build script runs migrations, seeds the catalog, and creates/updates the superuser automatically.
@@ -95,3 +104,34 @@ DJANGO_SUPERUSER_UPDATE_PASSWORD=true
 ```
 
 Deploy once, then set it back to `false`.
+
+## Brevo OTP Email
+
+Signup OTPs are sent through Django email. Local development uses console email by default, so
+codes print in the terminal. Production should use Brevo SMTP:
+
+1. In Brevo, authenticate your sending domain or create a verified sender.
+2. Go to SMTP & API settings and create/copy an SMTP key.
+3. In Render, set:
+
+```env
+DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+DJANGO_DEFAULT_FROM_EMAIL=Tanit Cuisine <orders@your-domain.com>
+DJANGO_EMAIL_HOST=smtp-relay.brevo.com
+DJANGO_EMAIL_PORT=587
+DJANGO_EMAIL_HOST_USER=your-brevo-smtp-login
+DJANGO_EMAIL_HOST_PASSWORD=your-brevo-smtp-key
+DJANGO_EMAIL_USE_TLS=true
+DJANGO_EMAIL_USE_SSL=false
+```
+
+Use a Brevo SMTP key, not a Brevo API key.
+
+## Frontend API URL
+
+If signin/signup shows `Failed to fetch`, the browser cannot reach the Django API. Check:
+
+- Vercel has `NEXT_PUBLIC_API_URL=https://your-render-service.onrender.com/api`
+- Render has `DJANGO_CORS_ALLOWED_ORIGINS=https://your-vercel-site.vercel.app`
+- Render has `DJANGO_CSRF_TRUSTED_ORIGINS=https://your-vercel-site.vercel.app`
+- The Render backend is deployed and `/api/health/` opens in the browser
