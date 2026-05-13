@@ -3,6 +3,7 @@ Django settings for the Tanit Cuisine backend.
 """
 
 import os
+import sys
 
 from datetime import timedelta
 from pathlib import Path
@@ -18,6 +19,9 @@ load_dotenv(BASE_DIR / ".env")
 def env_list(name: str, default: str = "") -> list[str]:
     value = os.getenv(name, default)
     return [item.strip() for item in value.split(",") if item.strip()]
+
+
+RUNNING_TESTS = "test" in sys.argv
 
 
 # Quick-start development settings - unsuitable for production
@@ -88,7 +92,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = os.getenv("DJANGO_TEST_DATABASE_URL" if RUNNING_TESTS else "DATABASE_URL")
 
 if DATABASE_URL:
     DATABASES = {
@@ -197,7 +201,7 @@ EMAIL_HOST_USER = os.getenv("DJANGO_EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.getenv("DJANGO_EMAIL_HOST_PASSWORD", "")
 EMAIL_USE_TLS = os.getenv("DJANGO_EMAIL_USE_TLS", "true").lower() == "true"
 
-if not DEBUG:
+if not DEBUG and not RUNNING_TESTS:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SECURE_SSL_REDIRECT = os.getenv("DJANGO_SECURE_SSL_REDIRECT", "true").lower() == "true"
     SESSION_COOKIE_SECURE = True

@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.core import mail
+from django.core.management import call_command
 from django.test import TestCase
+from unittest.mock import patch
 from rest_framework.test import APIClient
 
 from .models import EmailOTP
@@ -67,3 +69,26 @@ class AccountAuthTests(TestCase):
         profile = self.client.get("/api/auth/me/")
         self.assertEqual(profile.status_code, 200)
         self.assertEqual(profile.data["email"], "guest@example.com")
+
+    @patch.dict("os.environ", {}, clear=True)
+    def test_ensure_superuser_skips_without_env(self):
+        call_command("ensure_superuser", verbosity=0)
+        self.assertEqual(User.objects.count(), 0)
+
+    @patch.dict(
+        "os.environ",
+        {
+            "DJANGO_SUPERUSER_EMAIL": "admin@example.com",
+            "DJANGO_SUPERUSER_PASSWORD": "strong-admin-password",
+            "DJANGO_SUPERUSER_FULL_NAME": "Tanit Admin",
+        },
+        clear=True,
+    )
+    def test_ensure_superuser_creates_admin_from_env(self):
+        call_command("ensure_superuser", verbosity=0)
+        user = User.objects.get(email="admin@example.com")
+        self.assertEqual(user.full_name, "Tanit Admin")
+        self.assertTrue(user.is_staff)
+        self.assertTrue(user.is_superuser)
+        self.assertTrue(user.is_email_verified)
+        self.assertTrue(user.check_password("strong-admin-password"))

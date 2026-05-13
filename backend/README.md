@@ -80,11 +80,18 @@ DJANGO_CSRF_TRUSTED_ORIGINS=https://your-vercel-app.vercel.app,https://your-doma
 DATABASE_URL=postgresql://...
 DATABASE_SSL_REQUIRE=true
 DATABASE_CONN_MAX_AGE=600
+DJANGO_SUPERUSER_EMAIL=admin@example.com
+DJANGO_SUPERUSER_PASSWORD=secure-admin-password
+DJANGO_SUPERUSER_FULL_NAME=Tanit Admin
 ```
 
-After first deploy, open the Render shell and run:
+The Render build script runs migrations, seeds the catalog, and creates/updates the superuser automatically.
+No Render shell is required on the free tier.
 
-```bash
-python manage.py createsuperuser
-python manage.py seed_catalog
+If you need to rotate the admin password, temporarily set:
+
+```env
+DJANGO_SUPERUSER_UPDATE_PASSWORD=true
 ```
+
+Deploy once, then set it back to `false`.

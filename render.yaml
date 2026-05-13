@@ -27,3 +27,11 @@ services:
         value: true
       - key: DJANGO_EMAIL_BACKEND
         value: django.core.mail.backends.console.EmailBackend
+      - key: DJANGO_SUPERUSER_EMAIL
+        sync: false
+      - key: DJANGO_SUPERUSER_PASSWORD
+        sync: false
+      - key: DJANGO_SUPERUSER_FULL_NAME
+        value: Tanit Admin
+      - key: DJANGO_SUPERUSER_UPDATE_PASSWORD
+        value: false
