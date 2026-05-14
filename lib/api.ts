@@ -1,6 +1,28 @@
 export const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ?? "http://127.0.0.1:8000/api"
 
+function extractApiError(data: unknown) {
+  if (typeof data === "string") return data
+  if (!data || typeof data !== "object") return "Request failed"
+
+  const record = data as Record<string, unknown>
+  if (typeof record.detail === "string") return record.detail
+  if (Array.isArray(record.non_field_errors) && record.non_field_errors.length > 0) {
+    return String(record.non_field_errors[0])
+  }
+
+  for (const [field, value] of Object.entries(record)) {
+    if (Array.isArray(value) && value.length > 0) {
+      return `${field}: ${String(value[0])}`
+    }
+    if (typeof value === "string") {
+      return `${field}: ${value}`
+    }
+  }
+
+  return "Request failed"
+}
+
 export async function apiRequest<T>(
   path: string,
   options: RequestInit & { token?: string | null } = {},
@@ -47,15 +69,7 @@ export async function apiRequest<T>(
       )
     }
 
-    const detail =
-      typeof data === "string"
-        ? data
-        : data && typeof data === "object" && "detail" in data
-          ? String(data.detail)
-          : data && typeof data === "object" && "non_field_errors" in data && Array.isArray(data.non_field_errors)
-            ? String(data.non_field_errors[0])
-            : "Request failed"
-    throw new Error(detail)
+    throw new Error(extractApiError(data))
   }
 
   if (text && !isJson) {
