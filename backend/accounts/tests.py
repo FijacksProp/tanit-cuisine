@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core import mail
 from django.core.management import call_command
 from django.test import TestCase
+from django.test.utils import override_settings
 from unittest.mock import patch
 from rest_framework.test import APIClient
 
@@ -28,6 +29,21 @@ class AccountAuthTests(TestCase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(EmailOTP.objects.count(), 1)
         self.assertEqual(len(mail.outbox), 1)
+
+    @patch("accounts.serializers.send_mail", side_effect=RuntimeError("smtp misconfigured"))
+    def test_signup_start_returns_json_when_email_fails(self, _send_mail):
+        response = self.client.post(
+            "/api/auth/signup/start/",
+            {
+                "email": "guest@example.com",
+                "fullName": "Test Guest",
+                "phone": "+2348012345678",
+                "password": "strong-password",
+            },
+            format="json",
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("email", response.data)
 
     def test_signup_verify_creates_user_and_tokens(self):
         self.client.post(
@@ -118,3 +134,20 @@ class AccountAuthTests(TestCase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, ["staff@example.com"])
         self.assertIn("backend", response.data)
+
+    @override_settings(EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend", EMAIL_HOST="invalid.local")
+    def test_email_diagnostics_returns_json_when_email_fails(self):
+        user = User.objects.create_user(
+            email="staff@example.com",
+            full_name="Staff User",
+            password="strong-password",
+            is_staff=True,
+            is_email_verified=True,
+        )
+        self.client.force_authenticate(user=user)
+        with patch("accounts.views.send_mail", side_effect=RuntimeError("smtp misconfigured")):
+            response = self.client.post("/api/auth/email-test/", {}, format="json")
+        self.assertEqual(response.status_code, 503)
+        self.assertEqual(response.data["detail"], "Email sending failed.")
+        self.assertEqual(response.data["errorType"], "RuntimeError")
+        self.assertIn("hostPasswordSet", response.data)

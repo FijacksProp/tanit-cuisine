@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.core.mail import send_mail
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenRefreshView
@@ -46,13 +46,31 @@ class EmailDiagnosticsView(APIView):
 
     def post(self, request):
         recipient = request.data.get("email") or request.user.email
-        send_mail(
-            subject="Tanit Cuisine email test",
-            message="Your Tanit Cuisine email settings are working.",
-            from_email=None,
-            recipient_list=[recipient],
-            fail_silently=False,
-        )
+        try:
+            send_mail(
+                subject="Tanit Cuisine email test",
+                message="Your Tanit Cuisine email settings are working.",
+                from_email=None,
+                recipient_list=[recipient],
+                fail_silently=False,
+            )
+        except Exception as exc:
+            return Response(
+                {
+                    "detail": "Email sending failed.",
+                    "errorType": exc.__class__.__name__,
+                    "error": str(exc),
+                    "backend": settings.EMAIL_BACKEND,
+                    "host": settings.EMAIL_HOST,
+                    "port": settings.EMAIL_PORT,
+                    "useTls": settings.EMAIL_USE_TLS,
+                    "useSsl": settings.EMAIL_USE_SSL,
+                    "fromEmail": settings.DEFAULT_FROM_EMAIL,
+                    "hostUserSet": bool(settings.EMAIL_HOST_USER),
+                    "hostPasswordSet": bool(settings.EMAIL_HOST_PASSWORD),
+                },
+                status=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
         return Response(
             {
                 "detail": f"Test email sent to {recipient}.",
@@ -62,6 +80,8 @@ class EmailDiagnosticsView(APIView):
                 "useTls": settings.EMAIL_USE_TLS,
                 "useSsl": settings.EMAIL_USE_SSL,
                 "fromEmail": settings.DEFAULT_FROM_EMAIL,
+                "hostUserSet": bool(settings.EMAIL_HOST_USER),
+                "hostPasswordSet": bool(settings.EMAIL_HOST_PASSWORD),
             }
         )
 

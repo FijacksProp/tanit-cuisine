@@ -1,4 +1,4 @@
-import smtplib
+import logging
 
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.hashers import make_password
@@ -11,6 +11,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .models import EmailOTP
 
 User = get_user_model()
+logger = logging.getLogger(__name__)
 
 
 def token_payload(user):
@@ -83,7 +84,8 @@ class SignupStartSerializer(serializers.Serializer):
                 recipient_list=[otp.email],
                 fail_silently=False,
             )
-        except smtplib.SMTPException as exc:
+        except Exception as exc:
+            logger.exception("Failed to send signup OTP email to %s", otp.email)
             raise serializers.ValidationError(
                 {"email": "We could not send the verification email. Please try again shortly."}
             ) from exc
