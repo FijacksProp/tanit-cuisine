@@ -26,7 +26,18 @@ export async function apiRequest<T>(
   const text = await res.text()
   const contentType = res.headers.get("content-type") ?? ""
   const isJson = contentType.includes("application/json")
-  const data = text && isJson ? JSON.parse(text) : null
+  let data: unknown = null
+
+  if (text && isJson) {
+    try {
+      data = JSON.parse(text)
+    } catch {
+      const preview = text.replace(/\s+/g, " ").trim().slice(0, 180)
+      throw new Error(
+        `API returned invalid JSON from ${API_BASE_URL}${path}. HTTP ${res.status} ${res.statusText}. ${preview}`,
+      )
+    }
+  }
 
   if (!res.ok) {
     if (!isJson) {
@@ -39,7 +50,11 @@ export async function apiRequest<T>(
     const detail =
       typeof data === "string"
         ? data
-        : data?.detail || data?.non_field_errors?.[0] || "Request failed"
+        : data && typeof data === "object" && "detail" in data
+          ? String(data.detail)
+          : data && typeof data === "object" && "non_field_errors" in data && Array.isArray(data.non_field_errors)
+            ? String(data.non_field_errors[0])
+            : "Request failed"
     throw new Error(detail)
   }
 

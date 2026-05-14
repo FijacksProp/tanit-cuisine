@@ -3,7 +3,8 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { Heart, LayoutDashboard, Menu, Search, ShoppingBag, User, X } from "lucide-react"
+import { Heart, LayoutDashboard, LogOut, Menu, Search, ShoppingBag, User, X } from "lucide-react"
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -31,7 +32,7 @@ const navLinks = [
 export function SiteHeader() {
   const pathname = usePathname()
   const router = useRouter()
-  const { user } = useAuth()
+  const { user, signout } = useAuth()
   const { cartCount, wishlist, openCart } = useStore()
   const [menuOpen, setMenuOpen] = React.useState(false)
   const [searchOpen, setSearchOpen] = React.useState(false)
@@ -51,6 +52,13 @@ export function SiteHeader() {
     if (!q) return
     setSearchOpen(false)
     router.push(`/menu?q=${encodeURIComponent(q)}`)
+  }
+
+  const handleSignout = () => {
+    signout()
+    setMenuOpen(false)
+    toast.success("Signed out")
+    router.push("/")
   }
 
   return (
@@ -119,6 +127,16 @@ export function SiteHeader() {
                     >
                       Admin Dashboard
                     </Link>
+                  )}
+                  {user && (
+                    <button
+                      type="button"
+                      onClick={handleSignout}
+                      className="py-3 px-2 text-left text-base font-medium hover:text-primary transition-colors border-b border-border/40 inline-flex items-center gap-2"
+                    >
+                      <LogOut className="size-4" />
+                      Sign out
+                    </button>
                   )}
                 </nav>
                 <div className="p-6">
@@ -199,6 +217,17 @@ export function SiteHeader() {
                   <LayoutDashboard className="size-5" />
                 </Button>
               </Link>
+            )}
+            {user && (
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                aria-label="Sign out"
+                className="md:size-9"
+                onClick={handleSignout}
+              >
+                <LogOut className="size-5" />
+              </Button>
             )}
             <Button
               variant="ghost"
