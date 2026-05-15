@@ -1,14 +1,44 @@
 "use client"
 
+import * as React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { PackageSearch, ReceiptText, ShoppingBag } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import { Badge } from "@/components/ui/badge"
+import { apiRequest } from "@/lib/api"
 import { useAuth } from "@/lib/auth-context"
+import { formatNaira } from "@/lib/format"
+import type { CustomerOrder } from "@/lib/order-types"
+
+function humanize(value: string) {
+  return value.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase())
+}
+
+function formatDate(value: string) {
+  return new Intl.DateTimeFormat("en-NG", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(new Date(value))
+}
 
 export function AccountClient() {
   const router = useRouter()
-  const { user, loading, signout } = useAuth()
+  const { user, accessToken, loading, signout } = useAuth()
+  const [orders, setOrders] = React.useState<CustomerOrder[]>([])
+  const [ordersLoading, setOrdersLoading] = React.useState(false)
+  const latestOrder = orders[0]
+
+  React.useEffect(() => {
+    if (!accessToken || !user) return
+
+    setOrdersLoading(true)
+    apiRequest<CustomerOrder[]>("/orders/", { token: accessToken })
+      .then(setOrders)
+      .catch(() => setOrders([]))
+      .finally(() => setOrdersLoading(false))
+  }, [accessToken, user])
 
   if (loading) {
     return (
@@ -43,6 +73,38 @@ export function AccountClient() {
         Your Tanit profile is connected to {user.email}.
       </p>
 
+      <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <Button asChild className="h-auto justify-start rounded-lg p-4">
+          <Link href="/track" className="flex items-center gap-3">
+            <PackageSearch className="size-5" />
+            <span className="text-left">
+              <span className="block font-medium">Track order</span>
+              <span className="block text-xs opacity-80">Use an order number</span>
+            </span>
+          </Link>
+        </Button>
+        <Button asChild variant="outline" className="h-auto justify-start rounded-lg bg-transparent p-4">
+          <Link href={latestOrder ? `/account/orders/${latestOrder.orderNumber}` : "/account"} className="flex items-center gap-3">
+            <ReceiptText className="size-5" />
+            <span className="text-left">
+              <span className="block font-medium">Latest receipt</span>
+              <span className="block text-xs text-muted-foreground">
+                {latestOrder ? latestOrder.orderNumber : "No orders yet"}
+              </span>
+            </span>
+          </Link>
+        </Button>
+        <Button asChild variant="outline" className="h-auto justify-start rounded-lg bg-transparent p-4">
+          <Link href="/menu" className="flex items-center gap-3">
+            <ShoppingBag className="size-5" />
+            <span className="text-left">
+              <span className="block font-medium">Order again</span>
+              <span className="block text-xs text-muted-foreground">Browse the menu</span>
+            </span>
+          </Link>
+        </Button>
+      </div>
+
       <div className="mt-10 border border-border/60 rounded-lg bg-card p-6 md:p-8">
         <h2 className="font-serif text-2xl">Profile</h2>
         <Separator className="my-5" />
@@ -72,7 +134,60 @@ export function AccountClient() {
         </dl>
       </div>
 
-      <div className="mt-8 flex flex-wrap gap-3">
+      <div className="mt-8 border border-border/60 rounded-lg bg-card p-6 md:p-8">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <h2 className="font-serif text-2xl">Orders & receipts</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              View previous orders and print or save receipts.
+            </p>
+          </div>
+          <ReceiptText className="size-5 text-primary shrink-0" />
+        </div>
+        <Separator className="my-5" />
+        {ordersLoading ? (
+          <div className="space-y-3">
+            <div className="h-16 rounded bg-muted animate-pulse" />
+            <div className="h-16 rounded bg-muted animate-pulse" />
+          </div>
+        ) : orders.length === 0 ? (
+          <p className="text-sm text-muted-foreground">
+            You have not placed any orders yet.
+          </p>
+        ) : (
+          <div className="divide-y divide-border/60">
+            {orders.map((order) => (
+              <div
+                key={order.orderNumber}
+                className="py-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+              >
+                <div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="font-medium">{order.orderNumber}</p>
+                    <Badge variant={order.status === "cancelled" ? "destructive" : "secondary"}>
+                      {humanize(order.status)}
+                    </Badge>
+                  </div>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {formatDate(order.created_at)} | {order.items.length} item
+                    {order.items.length === 1 ? "" : "s"} | {formatNaira(order.total)}
+                  </p>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <Button asChild variant="outline" className="rounded-full bg-transparent">
+                    <Link href={`/track?order=${encodeURIComponent(order.orderNumber)}`}>Track</Link>
+                  </Button>
+                  <Button asChild className="rounded-full">
+                    <Link href={`/account/orders/${order.orderNumber}`}>Receipt</Link>
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap gap-3">
         <Button asChild className="rounded-full">
           <Link href="/wishlist">View wishlist</Link>
         </Button>

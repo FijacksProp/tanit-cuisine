@@ -69,7 +69,7 @@ const initialForm: FormState = {
 export function CheckoutPageClient() {
   const router = useRouter()
   const { cartItemsWithProduct, cartSubtotal, cartCount, clearCart } = useStore()
-  const { accessToken, user } = useAuth()
+  const { accessToken, user, loading: authLoading } = useAuth()
   const [form, setForm] = React.useState<FormState>(initialForm)
   const [errors, setErrors] = React.useState<Partial<Record<keyof FormState, string>>>({})
   const [submitting, setSubmitting] = React.useState(false)
@@ -162,6 +162,37 @@ export function CheckoutPageClient() {
     }
   }
 
+  if (authLoading) {
+    return (
+      <div className="mx-auto max-w-2xl px-4 sm:px-6 py-24 text-center">
+        <div className="mx-auto h-8 w-48 rounded bg-muted animate-pulse" />
+        <div className="mx-auto mt-4 h-4 w-72 rounded bg-muted animate-pulse" />
+      </div>
+    )
+  }
+
+  if (!user) {
+    return (
+      <div className="mx-auto max-w-2xl px-4 sm:px-6 py-24 text-center">
+        <div className="mx-auto size-14 rounded-full bg-secondary flex items-center justify-center mb-5">
+          <Lock className="size-6 text-primary" />
+        </div>
+        <h1 className="font-serif text-3xl md:text-4xl">Sign in to check out</h1>
+        <p className="mt-3 text-muted-foreground">
+          Create or sign in to your account so we can save your receipt and order history.
+        </p>
+        <div className="mt-6 flex flex-col sm:flex-row justify-center gap-3">
+          <Button asChild className="rounded-full">
+            <Link href="/signin">Sign in</Link>
+          </Button>
+          <Button asChild variant="outline" className="rounded-full bg-transparent">
+            <Link href="/signup">Create account</Link>
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
   if (cartCount === 0) {
     return (
       <div className="mx-auto max-w-2xl px-4 sm:px-6 py-24 text-center">
@@ -194,6 +225,9 @@ export function CheckoutPageClient() {
             <FieldLegend className="font-serif text-2xl tracking-tight">
               Contact information
             </FieldLegend>
+            <p className="mt-2 text-sm text-muted-foreground">
+              We filled this from your account. You can edit it for this order.
+            </p>
             <FieldGroup>
               <Field data-error={!!errors.fullName}>
                 <FieldLabel htmlFor="fullName">Full name</FieldLabel>

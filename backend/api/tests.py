@@ -37,7 +37,33 @@ class ApiMappingTests(TestCase):
         self.assertGreaterEqual(len(response.data["reviews"]), 1)
         self.assertIn("chapman-reserve", response.data["pairings"])
 
-    def test_order_create_calculates_totals_and_snapshots_items(self):
+    def test_guest_cannot_create_order(self):
+        response = self.client.post(
+            "/api/orders/",
+            {
+                "fullName": "Test Guest",
+                "email": "guest@example.com",
+                "phone": "+2348012345678",
+                "address": "GRA, Ilorin",
+                "city": "Ilorin",
+                "state": "Kwara",
+                "delivery": "standard",
+                "payment": "cash",
+                "items": [{"productId": "p-001", "quantity": 2}],
+            },
+            format="json",
+        )
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(Order.objects.count(), 0)
+
+    def test_authenticated_order_create_calculates_totals_and_snapshots_items(self):
+        user = User.objects.create_user(
+            email="guest@example.com",
+            full_name="Test Guest",
+            password="strong-password",
+            is_email_verified=True,
+        )
+        self.client.force_authenticate(user=user)
         response = self.client.post(
             "/api/orders/",
             {
@@ -55,6 +81,7 @@ class ApiMappingTests(TestCase):
         )
         self.assertEqual(response.status_code, 201)
         self.assertEqual(Order.objects.count(), 1)
+        self.assertEqual(Order.objects.get().user, user)
         self.assertEqual(response.data["subtotal"], 31000)
         self.assertEqual(response.data["deliveryFee"], 0)
         self.assertEqual(response.data["serviceFee"], 775)
@@ -86,6 +113,55 @@ class ApiMappingTests(TestCase):
         )
         self.assertEqual(response.status_code, 201)
         self.assertEqual(Order.objects.get().user, user)
+
+    def test_authenticated_user_can_list_and_retrieve_own_orders(self):
+        user = User.objects.create_user(
+            email="guest@example.com",
+            full_name="Test Guest",
+            password="strong-password",
+            is_email_verified=True,
+        )
+        other_user = User.objects.create_user(
+            email="other@example.com",
+            full_name="Other Guest",
+            password="strong-password",
+            is_email_verified=True,
+        )
+        self.client.force_authenticate(user=user)
+        created = self.client.post(
+            "/api/orders/",
+            {
+                "fullName": "Test Guest",
+                "email": "guest@example.com",
+                "phone": "+2348012345678",
+                "address": "GRA, Ilorin",
+                "city": "Ilorin",
+                "state": "Kwara",
+                "delivery": "standard",
+                "payment": "cash",
+                "items": [{"productId": "p-001", "quantity": 1}],
+            },
+            format="json",
+        )
+        Order.objects.create(
+            order_number="TC-OTHER",
+            user=other_user,
+            full_name="Other Guest",
+            email="other@example.com",
+            phone="+2348012345679",
+            subtotal=1,
+            total=1,
+        )
+
+        listed = self.client.get("/api/orders/")
+        self.assertEqual(listed.status_code, 200)
+        self.assertEqual(len(listed.data), 1)
+        self.assertEqual(listed.data[0]["orderNumber"], created.data["orderNumber"])
+
+        retrieved = self.client.get(f"/api/orders/{created.data['orderNumber']}/")
+        self.assertEqual(retrieved.status_code, 200)
+        missing = self.client.get("/api/orders/TC-OTHER/")
+        self.assertEqual(missing.status_code, 404)
 
     def test_authenticated_user_can_review_meal_and_verified_if_ordered(self):
         user = User.objects.create_user(

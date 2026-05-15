@@ -99,7 +99,7 @@ export function OrderSuccessClient() {
           </Link>
         </Button>
         <Button asChild size="lg" variant="outline" className="rounded-full bg-transparent">
-          <Link href="/">Back to home</Link>
+          <Link href={`/account/orders/${orderId}`}>View receipt</Link>
         </Button>
       </div>
     </div>

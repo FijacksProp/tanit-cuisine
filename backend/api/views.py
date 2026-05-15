@@ -128,8 +128,9 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
         return Response(serializer.to_representation(review), status=status.HTTP_201_CREATED)
 
 
-class OrderViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class OrderViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     queryset = Order.objects.prefetch_related("items").select_related("customer")
+    permission_classes = [permissions.IsAuthenticated]
     lookup_field = "order_number"
     lookup_url_kwarg = "order_number"
 
@@ -139,10 +140,7 @@ class OrderViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, viewsets.
         return OrderSerializer
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        if self.action == "retrieve" and self.request.user.is_authenticated:
-            return queryset.filter(Q(user=self.request.user) | Q(user__isnull=True))
-        return queryset
+        return super().get_queryset().filter(user=self.request.user)
 
 
 class ContactMessageViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):

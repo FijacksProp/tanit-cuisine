@@ -27,6 +27,7 @@ const navLinks = [
   { href: "/menu", label: "Menu" },
   { href: "/about", label: "Our Story" },
   { href: "/wishlist", label: "Wishlist" },
+  { href: "/track", label: "Track Order" },
 ]
 
 export function SiteHeader() {
